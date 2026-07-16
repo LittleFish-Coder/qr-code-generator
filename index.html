@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#f5f4ff" />
+    <link rel="icon" href="data:," />
+    <meta name="description" content="完全在瀏覽器中運作、保護隱私的靜態 QR Code 產生器。" />
+    <title>QR 留白室｜隱私友善 QR Code 產生器</title>
+  </head>
+  <body>
+    <a class="skip-link" href="#controls">跳至設定</a>
+    <header class="site-header">
+      <a class="brand" href="#top" aria-label="QR 留白室首頁">
+        <span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+        <span>QR 留白室</span>
+      </a>
+      <p class="privacy-pill"><span aria-hidden="true">●</span> 100% 瀏覽器本機處理</p>
+    </header>
+
+    <main id="top">
+      <section class="intro" aria-labelledby="page-title">
+        <p class="eyebrow">PRIVATE · LOCAL · RELIABLE</p>
+        <h1 id="page-title">把連結變簡單，<br /><em>把隱私留給自己。</em></h1>
+        <p class="lede">建立清楚、好掃描的靜態 QR Code。文字、網址與標誌圖片只會留在你的裝置裡。</p>
+      </section>
+
+      <div class="workspace">
+        <form id="controls" class="control-panel" novalidate>
+          <section class="panel-section" aria-labelledby="content-heading">
+            <div class="section-heading">
+              <span>01</span>
+              <div><h2 id="content-heading">內容</h2><p>輸入網址或任何純文字</p></div>
+            </div>
+            <label for="qr-data">網址或文字</label>
+            <textarea id="qr-data" rows="3" maxlength="2000" aria-describedby="data-help data-error">https://example.com</textarea>
+            <div class="field-meta"><span id="data-help">網址會自動檢查格式，純文字也可以。</span><span id="char-count">19 / 2000</span></div>
+            <p id="data-error" class="field-error" role="alert" hidden></p>
+          </section>
+
+          <section class="panel-section" aria-labelledby="logo-heading">
+            <div class="section-heading">
+              <span>02</span>
+              <div><h2 id="logo-heading">中央標誌</h2><p>選用，圖片不會被上傳</p></div>
+            </div>
+            <input id="logo-file" class="visually-hidden" type="file" accept="image/png,image/jpeg,image/webp,image/svg+xml" />
+            <label class="upload-box" for="logo-file">
+              <span class="upload-icon" aria-hidden="true">＋</span>
+              <span><strong>選擇標誌圖片</strong><small>PNG、JPEG、WebP 或 SVG，最大 5 MB</small></span>
+            </label>
+            <div id="logo-summary" class="logo-summary" hidden>
+              <img id="logo-thumb" alt="已上傳標誌預覽" />
+              <span id="logo-name"></span>
+              <button id="remove-logo" type="button">移除</button>
+            </div>
+            <p id="file-error" class="field-error" role="alert" hidden></p>
+          </section>
+
+          <section class="panel-section size-section" aria-labelledby="style-heading">
+            <div class="section-heading">
+              <span>03</span>
+              <div><h2 id="style-heading">QR Code 大小</h2><p>預設 320 px，可依用途調整</p></div>
+            </div>
+            <label class="size-control">尺寸 <output id="size-output" for="qr-size">320 px</output><input id="qr-size" type="range" min="200" max="800" step="20" value="320" /></label>
+          </section>
+
+          <div class="form-actions">
+            <button id="reset" class="button button-secondary" type="reset">重設全部</button>
+          </div>
+        </form>
+
+        <aside class="preview-panel" aria-labelledby="preview-title">
+          <div class="preview-heading"><div><p class="eyebrow">LIVE PREVIEW</p><h2 id="preview-title">即時預覽</h2></div><span id="preview-size">320 × 320</span></div>
+          <div id="qr-stage" class="qr-stage" aria-label="QR Code 預覽"></div>
+          <p id="status" class="status" role="status" aria-live="polite">QR Code 已更新</p>
+          <div class="download-actions">
+            <button id="download-png" class="button button-primary" type="button">下載 PNG</button>
+            <button id="download-svg" class="button button-secondary" type="button">下載 SVG</button>
+          </div>
+          <div class="scan-warning"><span aria-hidden="true">!</span><p><strong>發布或印刷前，請務必實際掃描測試。</strong><br />不同相機、紙張與尺寸都可能影響辨識。</p></div>
+        </aside>
+      </div>
+    </main>
+
+    <footer><p>所有處理都在你的瀏覽器中完成。沒有追蹤、沒有上傳、沒有伺服器儲存。</p><p>靜態 QR Code · 不含重新導向或追蹤</p></footer>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
