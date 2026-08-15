@@ -59,8 +59,18 @@
           <section class="panel-section size-section" aria-labelledby="style-heading">
             <div class="section-heading">
               <span>03</span>
-              <div><h2 id="style-heading">QR Code 大小</h2><p>預設 320 px，可依用途調整</p></div>
+              <div><h2 id="style-heading">QR Code 樣式</h2><p>可調整顏色、背景與尺寸</p></div>
             </div>
+            <label for="qr-color">QR 顏色
+              <select id="qr-color">
+                <option value="black" selected>黑色</option>
+                <option value="white">白色</option>
+              </select>
+            </label>
+            <label class="toggle-control" for="qr-background">
+              <input id="qr-background" type="checkbox" checked />
+              保留白色背景
+            </label>
             <label class="size-control">尺寸 <output id="size-output" for="qr-size">320 px</output><input id="qr-size" type="range" min="200" max="800" step="20" value="320" /></label>
           </section>
 

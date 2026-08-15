@@ -7,6 +7,7 @@ const $ = (selector) => document.querySelector(selector);
 const elements = {
   form: $('#controls'), data: $('#qr-data'), count: $('#char-count'), dataError: $('#data-error'),
   file: $('#logo-file'), fileError: $('#file-error'), logoSummary: $('#logo-summary'), logoThumb: $('#logo-thumb'), logoName: $('#logo-name'), removeLogo: $('#remove-logo'),
+  color: $('#qr-color'), background: $('#qr-background'),
   size: $('#qr-size'), sizeOutput: $('#size-output'),
   stage: $('#qr-stage'), previewSize: $('#preview-size'), status: $('#status'), png: $('#download-png'), svg: $('#download-svg'),
 };
@@ -18,6 +19,7 @@ let updateTimer = null;
 function state() {
   return {
     data: elements.data.value.trim(), size: Number(elements.size.value), logo: logo?.dataUrl || null,
+    color: elements.color.value, hasBackground: elements.background.checked,
   };
 }
 

@@ -8,6 +8,8 @@ export function createQrCode(container, options) {
 
 export function buildQrOptions(state) {
   const hasLogo = Boolean(state.logo);
+  const qrColor = state.color === 'white' ? '#ffffff' : '#111111';
+  const hasBackground = state.hasBackground !== false;
   return {
     width: state.size,
     height: state.size,
@@ -16,10 +18,10 @@ export function buildQrOptions(state) {
     margin: 16,
     qrOptions: { errorCorrectionLevel: hasLogo ? 'H' : 'M' },
     image: state.logo || undefined,
-    dotsOptions: { color: '#111111', type: 'square' },
-    backgroundOptions: { color: '#ffffff' },
-    cornersSquareOptions: { color: '#111111', type: 'square' },
-    cornersDotOptions: { color: '#111111', type: 'square' },
+    dotsOptions: { color: qrColor, type: 'square' },
+    backgroundOptions: { color: hasBackground ? '#ffffff' : 'transparent' },
+    cornersSquareOptions: { color: qrColor, type: 'square' },
+    cornersDotOptions: { color: qrColor, type: 'square' },
     imageOptions: {
       hideBackgroundDots: true,
       imageSize: 0.28,

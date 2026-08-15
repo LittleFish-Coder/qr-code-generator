@@ -30,7 +30,10 @@ h2 { margin: 0; font-family: 'Songti TC', 'Noto Serif TC', serif; font-size: 1.3
 .section-heading p { margin: .2rem 0 0; color: #817d99; font-size: .78rem; }
 label { display: grid; gap: .55rem; color: #48425f; font-size: .82rem; font-weight: 600; }
 textarea { width: 100%; border: 1px solid #c4c0df; border-radius: 2px; background: #fff; color: #201c38; padding: .8rem .9rem; }
+select { width: 100%; border: 1px solid #c4c0df; border-radius: 2px; background: #fff; color: #201c38; padding: .55rem .65rem; }
 textarea { resize: vertical; min-height: 96px; line-height: 1.6; }
+.toggle-control { grid-template-columns: auto 1fr; align-items: center; gap: .65rem; margin-top: 1rem; }
+.toggle-control input { margin: 0; }
 .field-meta { display: flex; justify-content: space-between; gap: 1rem; margin-top: .5rem; color: #817d99; font-size: .7rem; }
 .field-error { margin: .6rem 0 0; color: #a33b2e; font-size: .78rem; }
 .upload-box { display: flex; align-items: center; gap: 1rem; padding: 1.2rem; border: 1px dashed #9189c5; background: #f8f7ff; transition: background .2s, border-color .2s; }
