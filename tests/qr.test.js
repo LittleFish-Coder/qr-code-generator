@@ -17,6 +17,7 @@ describe('buildQrOptions', () => {
     expect(options.dotsOptions.color).toBe('#ffffff');
     expect(options.cornersSquareOptions.color).toBe('#ffffff');
     expect(options.cornersDotOptions.color).toBe('#ffffff');
+    expect(options.backgroundOptions.color).toBe('#ffffff');
   });
 
   it('supports removing the background', () => {
