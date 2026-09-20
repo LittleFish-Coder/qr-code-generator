@@ -98,7 +98,7 @@ elements.form.addEventListener('reset', () => {
 async function download(extension) {
   if (!qrCode || !validateContent(elements.data.value).valid) return;
   if (!canDownload(extension, state().background)) {
-    setStatus('JPG 不支援透明背景，請先選擇黑色或白色背景。');
+    setStatus('JPEG 不支援透明背景，請先選擇黑色或白色背景。');
     return;
   }
   setStatus(`正在準備 ${extension.toUpperCase()} 檔案…`);
