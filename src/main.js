@@ -1,5 +1,5 @@
 import './styles.css';
-import { validateContent, validateImageFile, safeDownloadName } from './validation.js';
+import { canDownload, validateContent, validateImageFile, safeDownloadName } from './validation.js';
 import { prepareLogo } from './image.js';
 import { buildQrOptions, createQrCode } from './qr.js';
 
@@ -96,7 +96,7 @@ elements.form.addEventListener('reset', () => {
 
 async function download(extension) {
   if (!qrCode || !validateContent(elements.data.value).valid) return;
-  if (extension === 'jpeg' && state().background === 'transparent') {
+  if (!canDownload(extension, state().background)) {
     setStatus('JPG 不支援透明背景，請先選擇黑色或白色背景。');
     return;
   }

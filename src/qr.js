@@ -9,7 +9,8 @@ export function createQrCode(container, options) {
 export function buildQrOptions(state) {
   const hasLogo = Boolean(state.logo);
   const qrColor = state.color === 'white' ? '#ffffff' : '#111111';
-  const background = state.background === 'black' ? '#111111' : state.background === 'transparent' ? 'transparent' : '#ffffff';
+  const backgrounds = { black: '#111111', transparent: 'transparent', white: '#ffffff' };
+  const background = backgrounds[state.background] ?? backgrounds.white;
   return {
     width: state.size,
     height: state.size,

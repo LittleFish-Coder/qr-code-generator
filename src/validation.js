@@ -29,5 +29,9 @@ export function validateImageFile(file) {
 }
 
 export function safeDownloadName(extension) {
-  return extension === 'svg' ? 'qr-code.svg' : 'qr-code.png';
+  return `qr-code.${extension}`;
+}
+
+export function canDownload(extension, background) {
+  return extension !== 'jpeg' || background !== 'transparent';
 }

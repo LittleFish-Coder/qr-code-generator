@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { validateContent, validateImageFile, safeDownloadName, MAX_FILE_SIZE } from '../src/validation.js';
+import { canDownload, validateContent, validateImageFile, safeDownloadName, MAX_FILE_SIZE } from '../src/validation.js';
 
 describe('validateContent', () => {
   it('accepts arbitrary plain text', () => expect(validateContent('台北車站').valid).toBe(true));
@@ -18,4 +18,11 @@ describe('validateImageFile', () => {
 it('uses fixed safe download names', () => {
   expect(safeDownloadName('png')).toBe('qr-code.png');
   expect(safeDownloadName('svg')).toBe('qr-code.svg');
+  expect(safeDownloadName('jpeg')).toBe('qr-code.jpeg');
+});
+
+it('does not allow JPEG downloads with a transparent background', () => {
+  expect(canDownload('jpeg', 'transparent')).toBe(false);
+  expect(canDownload('jpeg', 'white')).toBe(true);
+  expect(canDownload('png', 'transparent')).toBe(true);
 });
