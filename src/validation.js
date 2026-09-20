@@ -29,7 +29,8 @@ export function validateImageFile(file) {
 }
 
 export function safeDownloadName(extension) {
-  return `qr-code.${extension}`;
+  const safeExtension = ['png', 'jpeg', 'svg'].includes(extension) ? extension : 'png';
+  return `qr-code.${safeExtension}`;
 }
 
 export function canDownload(extension, background) {

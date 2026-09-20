@@ -8,7 +8,7 @@ const elements = {
   form: $('#controls'), data: $('#qr-data'), count: $('#char-count'), dataError: $('#data-error'),
   file: $('#logo-file'), fileError: $('#file-error'), logoSummary: $('#logo-summary'), logoThumb: $('#logo-thumb'), logoName: $('#logo-name'), removeLogo: $('#remove-logo'),
   size: $('#qr-size'), sizeOutput: $('#size-output'),
-  stage: $('#qr-stage'), previewSize: $('#preview-size'), status: $('#status'), png: $('#download-png'), jpg: $('#download-jpg'),
+  stage: $('#qr-stage'), previewSize: $('#preview-size'), status: $('#status'), png: $('#download-png'), jpeg: $('#download-jpeg'),
 };
 
 let logo = null;
@@ -34,10 +34,11 @@ function render() {
   elements.dataError.textContent = result.message || '';
   elements.data.setAttribute('aria-invalid', String(!result.valid));
   elements.png.disabled = !result.valid;
-  elements.jpg.disabled = !result.valid;
+  elements.jpeg.disabled = !result.valid;
   if (!result.valid) return;
 
   const current = state();
+  elements.jpeg.disabled = !canDownload('jpeg', current.background);
   elements.sizeOutput.value = `${current.size} px`;
   elements.previewSize.textContent = `${current.size} × ${current.size}`;
   elements.stage.replaceChildren();
@@ -106,6 +107,6 @@ async function download(extension) {
 }
 
 elements.png.addEventListener('click', () => download('png'));
-elements.jpg.addEventListener('click', () => download('jpeg'));
+elements.jpeg.addEventListener('click', () => download('jpeg'));
 
 render();
