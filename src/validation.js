@@ -36,3 +36,7 @@ export function safeDownloadName(extension) {
 export function canDownload(extension, background) {
   return extension !== 'jpeg' || background !== 'transparent';
 }
+
+export function isQrReadable(color, background) {
+  return background === 'transparent' || color !== background;
+}

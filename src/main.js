@@ -1,5 +1,5 @@
 import './styles.css';
-import { canDownload, validateContent, validateImageFile, safeDownloadName } from './validation.js';
+import { canDownload, isQrReadable, validateContent, validateImageFile, safeDownloadName } from './validation.js';
 import { prepareLogo } from './image.js';
 import { buildQrOptions, createQrCode } from './qr.js';
 
@@ -38,9 +38,16 @@ function render() {
   if (!result.valid) return;
 
   const current = state();
-  elements.jpeg.disabled = !canDownload('jpeg', current.background);
+  const readable = isQrReadable(current.color, current.background);
+  elements.png.disabled = !readable;
+  elements.jpeg.disabled = !readable || !canDownload('jpeg', current.background);
   elements.sizeOutput.value = `${current.size} px`;
   elements.previewSize.textContent = `${current.size} × ${current.size}`;
+  if (!readable) {
+    elements.stage.replaceChildren();
+    setStatus('QR Code 與背景顏色不可相同，請選擇不同顏色。');
+    return;
+  }
   elements.stage.replaceChildren();
   qrCode = createQrCode(elements.stage, buildQrOptions(current));
   setStatus(`QR Code 已更新${logo ? '，已加入中央圖片' : ''}`);

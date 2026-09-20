@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { canDownload, validateContent, validateImageFile, safeDownloadName, MAX_FILE_SIZE } from '../src/validation.js';
+import { canDownload, isQrReadable, validateContent, validateImageFile, safeDownloadName, MAX_FILE_SIZE } from '../src/validation.js';
 
 describe('validateContent', () => {
   it('accepts arbitrary plain text', () => expect(validateContent('台北車站').valid).toBe(true));
@@ -25,4 +25,11 @@ it('does not allow JPEG downloads with a transparent background', () => {
   expect(canDownload('jpeg', 'transparent')).toBe(false);
   expect(canDownload('jpeg', 'white')).toBe(true);
   expect(canDownload('png', 'transparent')).toBe(true);
+});
+
+it('rejects matching QR and background colors', () => {
+  expect(isQrReadable('black', 'black')).toBe(false);
+  expect(isQrReadable('white', 'white')).toBe(false);
+  expect(isQrReadable('black', 'transparent')).toBe(true);
+  expect(isQrReadable('white', 'black')).toBe(true);
 });
