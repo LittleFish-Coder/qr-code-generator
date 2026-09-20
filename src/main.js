@@ -1,5 +1,5 @@
 import './styles.css';
-import { validateContent, validateImageFile, safeDownloadName } from './validation.js';
+import { canDownload, isQrReadable, validateContent, validateImageFile, safeDownloadName } from './validation.js';
 import { prepareLogo } from './image.js';
 import { buildQrOptions, createQrCode } from './qr.js';
 
@@ -7,9 +7,8 @@ const $ = (selector) => document.querySelector(selector);
 const elements = {
   form: $('#controls'), data: $('#qr-data'), count: $('#char-count'), dataError: $('#data-error'),
   file: $('#logo-file'), fileError: $('#file-error'), logoSummary: $('#logo-summary'), logoThumb: $('#logo-thumb'), logoName: $('#logo-name'), removeLogo: $('#remove-logo'),
-  color: $('#qr-color'), background: $('#qr-background'),
   size: $('#qr-size'), sizeOutput: $('#size-output'),
-  stage: $('#qr-stage'), previewSize: $('#preview-size'), status: $('#status'), png: $('#download-png'), svg: $('#download-svg'),
+  stage: $('#qr-stage'), previewSize: $('#preview-size'), status: $('#status'), png: $('#download-png'), jpeg: $('#download-jpeg'),
 };
 
 let logo = null;
@@ -19,7 +18,8 @@ let updateTimer = null;
 function state() {
   return {
     data: elements.data.value.trim(), size: Number(elements.size.value), logo: logo?.dataUrl || null,
-    color: elements.color.value, hasBackground: elements.background.checked,
+    color: document.querySelector('input[name="qr-color"]:checked').value,
+    background: document.querySelector('input[name="qr-background"]:checked').value,
   };
 }
 
@@ -34,12 +34,20 @@ function render() {
   elements.dataError.textContent = result.message || '';
   elements.data.setAttribute('aria-invalid', String(!result.valid));
   elements.png.disabled = !result.valid;
-  elements.svg.disabled = !result.valid;
+  elements.jpeg.disabled = !result.valid;
   if (!result.valid) return;
 
   const current = state();
+  const readable = isQrReadable(current.color, current.background);
+  elements.png.disabled = !readable;
+  elements.jpeg.disabled = !readable || !canDownload('jpeg', current.background);
   elements.sizeOutput.value = `${current.size} px`;
   elements.previewSize.textContent = `${current.size} × ${current.size}`;
+  if (!readable) {
+    elements.stage.replaceChildren();
+    setStatus('QR Code 與背景顏色不可相同，請選擇不同顏色。');
+    return;
+  }
   elements.stage.replaceChildren();
   qrCode = createQrCode(elements.stage, buildQrOptions(current));
   setStatus(`QR Code 已更新${logo ? '，已加入中央圖片' : ''}`);
@@ -96,12 +104,16 @@ elements.form.addEventListener('reset', () => {
 
 async function download(extension) {
   if (!qrCode || !validateContent(elements.data.value).valid) return;
+  if (!canDownload(extension, state().background)) {
+    setStatus('JPEG 不支援透明背景，請先選擇黑色或白色背景。');
+    return;
+  }
   setStatus(`正在準備 ${extension.toUpperCase()} 檔案…`);
   await qrCode.download({ name: safeDownloadName(extension).replace(`.${extension}`, ''), extension });
   setStatus(`${extension.toUpperCase()} 已開始下載`);
 }
 
 elements.png.addEventListener('click', () => download('png'));
-elements.svg.addEventListener('click', () => download('svg'));
+elements.jpeg.addEventListener('click', () => download('jpeg'));
 
 render();

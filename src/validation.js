@@ -29,5 +29,14 @@ export function validateImageFile(file) {
 }
 
 export function safeDownloadName(extension) {
-  return extension === 'svg' ? 'qr-code.svg' : 'qr-code.png';
+  const safeExtension = ['png', 'jpeg'].includes(extension) ? extension : 'png';
+  return `qr-code.${safeExtension}`;
+}
+
+export function canDownload(extension, background) {
+  return extension !== 'jpeg' || background !== 'transparent';
+}
+
+export function isQrReadable(color, background) {
+  return background === 'transparent' || color !== background;
 }

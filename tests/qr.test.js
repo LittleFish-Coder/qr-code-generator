@@ -20,8 +20,14 @@ describe('buildQrOptions', () => {
     expect(options.backgroundOptions.color).toBe('#ffffff');
   });
 
+  it('supports a black background', () => {
+    const options = buildQrOptions({ data: 'https://example.com', size: 320, logo: null, background: 'black' });
+
+    expect(options.backgroundOptions.color).toBe('#111111');
+  });
+
   it('supports removing the background', () => {
-    const options = buildQrOptions({ data: 'https://example.com', size: 320, logo: null, hasBackground: false });
+    const options = buildQrOptions({ data: 'https://example.com', size: 320, logo: null, background: 'transparent' });
 
     expect(options.backgroundOptions.color).toBe('transparent');
   });
