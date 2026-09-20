@@ -7,9 +7,9 @@ const $ = (selector) => document.querySelector(selector);
 const elements = {
   form: $('#controls'), data: $('#qr-data'), count: $('#char-count'), dataError: $('#data-error'),
   file: $('#logo-file'), fileError: $('#file-error'), logoSummary: $('#logo-summary'), logoThumb: $('#logo-thumb'), logoName: $('#logo-name'), removeLogo: $('#remove-logo'),
-  color: $('#qr-color'), background: $('#qr-background'),
+  color: document.querySelectorAll('input[name="qr-color"]'), background: document.querySelectorAll('input[name="qr-background"]'),
   size: $('#qr-size'), sizeOutput: $('#size-output'),
-  stage: $('#qr-stage'), previewSize: $('#preview-size'), status: $('#status'), png: $('#download-png'), svg: $('#download-svg'),
+  stage: $('#qr-stage'), previewSize: $('#preview-size'), status: $('#status'), png: $('#download-png'), jpg: $('#download-jpg'),
 };
 
 let logo = null;
@@ -19,7 +19,8 @@ let updateTimer = null;
 function state() {
   return {
     data: elements.data.value.trim(), size: Number(elements.size.value), logo: logo?.dataUrl || null,
-    color: elements.color.value, hasBackground: elements.background.checked,
+    color: document.querySelector('input[name="qr-color"]:checked').value,
+    background: document.querySelector('input[name="qr-background"]:checked').value,
   };
 }
 
@@ -34,7 +35,7 @@ function render() {
   elements.dataError.textContent = result.message || '';
   elements.data.setAttribute('aria-invalid', String(!result.valid));
   elements.png.disabled = !result.valid;
-  elements.svg.disabled = !result.valid;
+  elements.jpg.disabled = !result.valid;
   if (!result.valid) return;
 
   const current = state();
@@ -102,6 +103,6 @@ async function download(extension) {
 }
 
 elements.png.addEventListener('click', () => download('png'));
-elements.svg.addEventListener('click', () => download('svg'));
+elements.jpg.addEventListener('click', () => download('jpeg'));
 
 render();
