@@ -17,7 +17,6 @@ describe('validateImageFile', () => {
 
 it('uses fixed safe download names', () => {
   expect(safeDownloadName('png')).toBe('qr-code.png');
-  expect(safeDownloadName('svg')).toBe('qr-code.svg');
   expect(safeDownloadName('jpeg')).toBe('qr-code.jpeg');
   expect(safeDownloadName('../unsafe')).toBe('qr-code.png');
 });
