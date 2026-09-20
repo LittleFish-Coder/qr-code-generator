@@ -7,7 +7,6 @@ const $ = (selector) => document.querySelector(selector);
 const elements = {
   form: $('#controls'), data: $('#qr-data'), count: $('#char-count'), dataError: $('#data-error'),
   file: $('#logo-file'), fileError: $('#file-error'), logoSummary: $('#logo-summary'), logoThumb: $('#logo-thumb'), logoName: $('#logo-name'), removeLogo: $('#remove-logo'),
-  color: document.querySelectorAll('input[name="qr-color"]'), background: document.querySelectorAll('input[name="qr-background"]'),
   size: $('#qr-size'), sizeOutput: $('#size-output'),
   stage: $('#qr-stage'), previewSize: $('#preview-size'), status: $('#status'), png: $('#download-png'), jpg: $('#download-jpg'),
 };
@@ -97,6 +96,10 @@ elements.form.addEventListener('reset', () => {
 
 async function download(extension) {
   if (!qrCode || !validateContent(elements.data.value).valid) return;
+  if (extension === 'jpeg' && state().background === 'transparent') {
+    setStatus('JPG 不支援透明背景，請先選擇黑色或白色背景。');
+    return;
+  }
   setStatus(`正在準備 ${extension.toUpperCase()} 檔案…`);
   await qrCode.download({ name: safeDownloadName(extension).replace(`.${extension}`, ''), extension });
   setStatus(`${extension.toUpperCase()} 已開始下載`);
